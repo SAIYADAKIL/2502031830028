@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StoryWeave — The Forgotten Kingdom</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <style>
+    .story-hero { background: linear-gradient(135deg, #fdebd0, #faf8f4); padding: 3rem 0; border-bottom: 1px solid var(--border); }
+    .story-genre-pill { background: var(--accent); color: var(--white); border-radius: 50px; padding: 0.3rem 0.9rem; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-bottom: 1rem; }
+    .story-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; margin-bottom: 0.75rem; line-height: 1.15; }
+    .story-hero-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.83rem; color: var(--ink-light); }
+    .story-hero-meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .story-actions { display: flex; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap; }
+    .story-cover { width: 100%; aspect-ratio: 4/3; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 6rem; background: linear-gradient(135deg, #fdebd0, #f5cba7); box-shadow: var(--shadow-lg); }
+
+    .chapter-list { }
+    .chapter-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 0.75rem; background: var(--white); transition: all 0.2s; cursor: pointer; }
+    .chapter-item:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(200,119,58,0.1); }
+    .ch-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-pale); color: var(--accent); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ch-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.2rem; }
+    .ch-meta { font-size: 0.75rem; color: var(--ink-light); }
+    .ch-author { color: var(--accent); font-weight: 500; }
+
+    .comment-box { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; }
+    .comment-author { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+    .comment-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: var(--white); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+    .comment-name { font-weight: 600; font-size: 0.88rem; }
+    .comment-date { font-size: 0.75rem; color: var(--ink-light); }
+    .comment-body { font-size: 0.85rem; color: var(--ink-light); line-height: 1.65; }
+
+    .sticky-sidebar { position: sticky; top: 88px; }
+    .info-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; }
+    .info-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 1rem; }
+    .stat-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-row .val { font-weight: 600; }
+    .writer-item { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
+    .w-av { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem; color: var(--white); flex-shrink: 0; }
+    .w-name { font-size: 0.83rem; font-weight: 500; }
+    .w-chapters { font-size: 0.72rem; color: var(--ink-light); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Story<span>Weave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="write.html">Write</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="login.html" class="nav-cta">Sign In</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="story-hero">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-8">
+        <div class="story-genre-pill">🏰 Fantasy · Adventure</div>
+        <h1 class="story-hero-title">The Forgotten Kingdom</h1>
+        <p style="color:var(--ink-light);font-size:0.95rem;max-width:560px;margin-bottom:1rem">A princess discovers her kingdom was built on a terrible secret buried beneath the royal archives. As she digs deeper, the secrets begin digging back...</p>
+        <div class="story-hero-meta">
+          <span>👥 7 writers</span>
+          <span>📖 24 chapters</span>
+          <span>❤️ 842 likes</span>
+          <span>👁️ 14.2K reads</span>
+          <span>🟢 Open to contributions</span>
+        </div>
+        <div class="story-actions">
+          <a href="write.html" class="btn btn-primary">✍️ Add a Chapter</a>
+          <button class="btn btn-outline">❤️ Like Story</button>
+          <button class="btn btn-outline">🔖 Bookmark</button>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="story-cover">🏰</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" style="padding-top:2.5rem">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-8">
+
+        <!-- CHAPTERS -->
+        <div class="section-label">Chapters</div>
+        <h2 class="section-title" style="font-size:1.4rem;margin-bottom:1.25rem">Story Chapters (24)</h2>
+
+        <div class="chapter-list">
+          <div class="chapter-item">
+            <div class="ch-num">01</div>
+            <div>
+              <div class="ch-title">The Royal Archive</div>
+              <div class="ch-meta">By <span class="ch-author">@elara_writes</span> · 1,240 words · 3 days ago</div>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="ch-num">02</div>
+            <div>
+              <div class="ch-title">Beneath the Throne</div>
+              <div class="ch-meta">By <span class="ch-author">@moonlit_quill</span> · 980 words · 2 days ago</div>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="ch-num">03</div>
+            <div>
+              <div class="ch-title">The Whisper in the Wall</div>
+              <div class="ch-meta">By <span class="ch-author">@stormbright</span> · 1,105 words · 1 day ago</div>
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="ch-num">04</div>
+            <div>
+              <div class="ch-title">A Map Written in Blood</div>
+              <div class="ch-meta">By <span class="ch-author">@elara_writes</span> · 870 words · 12 hours ago</div>
+            </div>
+          </div>
+          <div class="chapter-item" style="border:1.5px dashed var(--border);background:var(--cream);">
+            <div class="ch-num" style="background:var(--border);color:var(--ink-light)">+</div>
+            <div>
+              <div class="ch-title" style="color:var(--ink-light)">Chapter 5 — Waiting for a contributor</div>
+              <div class="ch-meta">Be the next author · <a href="write.html" style="color:var(--accent)">Write this chapter →</a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="mt-4">
+          <div class="section-label">Discussion</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1.25rem">Reader Comments (18)</h3>
+
+          <div class="comment-box">
+            <div class="comment-author">
+              <div class="comment-avatar">P</div>
+              <div><div class="comment-name">Priya Sharma</div><div class="comment-date">2 days ago</div></div>
+            </div>
+            <div class="comment-body">Chapter 3 gave me chills! The description of the whisper echoing through the stone walls was incredibly vivid. Can't wait to see where this goes!</div>
+          </div>
+
+          <div class="comment-box">
+            <div class="comment-author">
+              <div class="comment-avatar" style="background:#6b7fa3">R</div>
+              <div><div class="comment-name">Rohan Mehta</div><div class="comment-date">1 day ago</div></div>
+            </div>
+            <div class="comment-body">I love how each author has maintained such a consistent tone. This reads like one person wrote it, which is rare for collaboratives. Bravo to all 7 writers!</div>
+          </div>
+
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+            <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.75rem">Leave a comment</h4>
+            <textarea rows="3" placeholder="Share your thoughts on the story..."></textarea>
+            <button class="btn btn-primary mt-2" style="padding:0.6rem 1.25rem;font-size:0.85rem">Post Comment</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-4">
+        <div class="sticky-sidebar">
+          <div class="info-card">
+            <h4>Story Stats</h4>
+            <div class="stat-row"><span>Status</span><span class="val" style="color:green">🟢 Open</span></div>
+            <div class="stat-row"><span>Started</span><span class="val">Mar 10, 2025</span></div>
+            <div class="stat-row"><span>Total Words</span><span class="val">28,450</span></div>
+            <div class="stat-row"><span>Chapters</span><span class="val">24</span></div>
+            <div class="stat-row"><span>Contributors</span><span class="val">7</span></div>
+            <div class="stat-row"><span>Total Reads</span><span class="val">14.2K</span></div>
+          </div>
+
+          <div class="info-card">
+            <h4>Contributors</h4>
+            <div class="writer-item">
+              <div class="w-av" style="background:var(--accent)">E</div>
+              <div><div class="w-name">@elara_writes</div><div class="w-chapters">8 chapters · Founder</div></div>
+            </div>
+            <div class="writer-item">
+              <div class="w-av" style="background:#6b7fa3">M</div>
+              <div><div class="w-name">@moonlit_quill</div><div class="w-chapters">5 chapters</div></div>
+            </div>
+            <div class="writer-item">
+              <div class="w-av" style="background:#7a9e6e">S</div>
+              <div><div class="w-name">@stormbright</div><div class="w-chapters">4 chapters</div></div>
+            </div>
+            <div class="writer-item">
+              <div class="w-av" style="background:#9b7ab5">A</div>
+              <div><div class="w-name">@astral_pen</div><div class="w-chapters">3 chapters</div></div>
+            </div>
+          </div>
+
+          <a href="write.html" class="btn btn-primary w-100">✍️ Write Next Chapter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">Story<span>Weave</span></div><p style="font-size:0.85rem;max-width:240px">Where imagination meets collaboration.</p></div>
+      <div class="footer-col"><h4>Explore</h4><a href="explore.html">Browse Stories</a><a href="write.html">Start Writing</a><a href="leaderboard.html">Leaderboard</a></div>
+      <div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="login.html">Sign Up</a><a href="profile.html">Profile</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 StoryWeave. Made with ❤️ for writers everywhere.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

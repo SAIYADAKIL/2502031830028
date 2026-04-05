@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StoryWeave — Profile</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <style>
+    .profile-banner { background: linear-gradient(135deg, var(--ink) 0%, #2d2d4e 100%); height: 200px; position: relative; }
+    .profile-banner::after { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z'/%3E%3C/g%3E%3C/svg%3E"); }
+
+    .profile-section { background: var(--white); border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+    .profile-avatar { width: 100px; height: 100px; border-radius: 50%; background: var(--accent); color: var(--white); font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 4px solid var(--white); box-shadow: var(--shadow); margin-top: -50px; position: relative; z-index: 1; }
+    .profile-name { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.15rem; }
+    .profile-handle { color: var(--ink-light); font-size: 0.88rem; margin-bottom: 0.75rem; }
+    .profile-bio { font-size: 0.88rem; color: var(--ink-light); max-width: 480px; line-height: 1.6; }
+    .profile-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .badge-pill { background: var(--accent-pale); color: var(--accent); font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 50px; }
+
+    .profile-stats { display: flex; gap: 2.5rem; margin-top: 1.25rem; }
+    .pstat { text-align: center; }
+    .pstat-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--ink); }
+    .pstat-label { font-size: 0.72rem; color: var(--ink-light); font-weight: 500; }
+
+    .profile-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--white); margin-bottom: 2rem; }
+    .ptab { padding: 1rem 1.5rem; font-size: 0.88rem; font-weight: 500; color: var(--ink-light); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .ptab:hover { color: var(--ink); }
+    .ptab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+    .story-mini { display: flex; gap: 1rem; padding: 1.1rem; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 0.75rem; align-items: flex-start; transition: all 0.2s; cursor: pointer; }
+    .story-mini:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(200,119,58,0.1); }
+    .story-mini-icon { font-size: 2rem; width: 48px; text-align: center; flex-shrink: 0; }
+    .story-mini-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
+    .story-mini-meta { font-size: 0.75rem; color: var(--ink-light); }
+    .story-mini-stats { margin-left: auto; text-align: right; font-size: 0.75rem; color: var(--ink-light); flex-shrink: 0; }
+
+    .achievement { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 0.6rem; }
+    .ach-icon { font-size: 1.5rem; }
+    .ach-name { font-weight: 600; font-size: 0.88rem; }
+    .ach-desc { font-size: 0.75rem; color: var(--ink-light); }
+    .ach-earned { margin-left: auto; font-size: 0.72rem; color: var(--accent); font-weight: 600; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .edit-btn { position: absolute; right: 2rem; bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Story<span>Weave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="write.html">Write</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="login.html" class="nav-cta">Sign In</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="profile-banner"></div>
+
+<div class="profile-section">
+  <div class="container">
+    <div style="position:relative">
+      <div class="d-flex align-items-flex-start gap-3 flex-wrap">
+        <div class="profile-avatar">A</div>
+        <div style="margin-top:0.5rem">
+          <div class="profile-name">Arjun Sharma</div>
+          <div class="profile-handle">@arjun_writes · Member since Jan 2025</div>
+          <div class="profile-bio">Fantasy & Sci-Fi writer from Ahmedabad. I believe every story is a collaboration between the writer and the reader. Currently working on "The Forgotten Kingdom".</div>
+          <div class="profile-badges">
+            <span class="badge-pill">🏆 Top Writer</span>
+            <span class="badge-pill">✦ 50+ Chapters</span>
+            <span class="badge-pill">🌟 Featured Author</span>
+            <span class="badge-pill">📖 Story Founder</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-outline edit-btn" style="font-size:0.82rem;padding:0.45rem 1rem">Edit Profile</button>
+    </div>
+    <div class="profile-stats">
+      <div class="pstat"><div class="pstat-num">63</div><div class="pstat-label">Chapters Written</div></div>
+      <div class="pstat"><div class="pstat-num">12</div><div class="pstat-label">Stories Joined</div></div>
+      <div class="pstat"><div class="pstat-num">3</div><div class="pstat-label">Stories Founded</div></div>
+      <div class="pstat"><div class="pstat-num">4.8K</div><div class="pstat-label">Total Reads</div></div>
+      <div class="pstat"><div class="pstat-num">287</div><div class="pstat-label">Likes Received</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="padding-top:0">
+  <div class="profile-tabs">
+    <div class="ptab active" onclick="switchPTab('stories', this)">My Stories</div>
+    <div class="ptab" onclick="switchPTab('chapters', this)">Chapters</div>
+    <div class="ptab" onclick="switchPTab('achievements', this)">Achievements</div>
+    <div class="ptab" onclick="switchPTab('settings', this)">Settings</div>
+  </div>
+
+  <!-- STORIES -->
+  <div class="tab-panel active" id="tab-stories">
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="story-mini">
+          <div class="story-mini-icon">🏰</div>
+          <div>
+            <div class="story-mini-title">The Forgotten Kingdom</div>
+            <div class="story-mini-meta">Founded · Fantasy · 7 contributors · 24 chapters</div>
+          </div>
+          <div class="story-mini-stats"><div>❤️ 842</div><div>👁️ 14.2K</div></div>
+        </div>
+        <div class="story-mini">
+          <div class="story-mini-icon">🌌</div>
+          <div>
+            <div class="story-mini-title">The Last Signal from Mars</div>
+            <div class="story-mini-meta">Co-author · Sci-Fi · 3 contributors · 12 chapters</div>
+          </div>
+          <div class="story-mini-stats"><div>❤️ 388</div><div>👁️ 6.8K</div></div>
+        </div>
+        <div class="story-mini">
+          <div class="story-mini-icon">🕵️</div>
+          <div>
+            <div class="story-mini-title">The Clock That Stopped</div>
+            <div class="story-mini-meta">Contributor · Mystery · 5 contributors · 18 chapters</div>
+          </div>
+          <div class="story-mini-stats"><div>❤️ 631</div><div>👁️ 9.1K</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAPTERS -->
+  <div class="tab-panel" id="tab-chapters">
+    <div class="col-lg-8">
+      <div class="story-mini">
+        <div class="story-mini-icon">📝</div>
+        <div>
+          <div class="story-mini-title">Ch.4 — A Map Written in Blood</div>
+          <div class="story-mini-meta">The Forgotten Kingdom · 870 words · 12 hours ago</div>
+        </div>
+        <div class="story-mini-stats"><div>❤️ 142</div></div>
+      </div>
+      <div class="story-mini">
+        <div class="story-mini-icon">📝</div>
+        <div>
+          <div class="story-mini-title">Ch.2 — The Archive Chamber</div>
+          <div class="story-mini-meta">The Forgotten Kingdom · 1,240 words · 3 days ago</div>
+        </div>
+        <div class="story-mini-stats"><div>❤️ 98</div></div>
+      </div>
+      <div class="story-mini">
+        <div class="story-mini-icon">📝</div>
+        <div>
+          <div class="story-mini-title">Ch.7 — Signal in the Static</div>
+          <div class="story-mini-meta">The Last Signal from Mars · 1,105 words · 5 days ago</div>
+        </div>
+        <div class="story-mini-stats"><div>❤️ 73</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="tab-panel" id="tab-achievements">
+    <div class="col-lg-8">
+      <div class="achievement">
+        <div class="ach-icon">🏆</div>
+        <div><div class="ach-name">Top Writer</div><div class="ach-desc">Ranked in top 50 on the leaderboard</div></div>
+        <div class="ach-earned">Earned Mar 2025</div>
+      </div>
+      <div class="achievement">
+        <div class="ach-icon">✍️</div>
+        <div><div class="ach-name">Prolific Author</div><div class="ach-desc">Written 50+ chapters across stories</div></div>
+        <div class="ach-earned">Earned Feb 2025</div>
+      </div>
+      <div class="achievement">
+        <div class="ach-icon">🌟</div>
+        <div><div class="ach-name">Featured Author</div><div class="ach-desc">Story selected for homepage feature</div></div>
+        <div class="ach-earned">Earned Feb 2025</div>
+      </div>
+      <div class="achievement">
+        <div class="ach-icon">📖</div>
+        <div><div class="ach-name">Story Founder</div><div class="ach-desc">Started a collaborative story</div></div>
+        <div class="ach-earned">Earned Jan 2025</div>
+      </div>
+      <div class="achievement" style="opacity:0.5">
+        <div class="ach-icon">💫</div>
+        <div><div class="ach-name">Legend</div><div class="ach-desc">Reach 100 chapters written — 63/100</div></div>
+        <div class="ach-earned">Locked</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="col-lg-6">
+      <div class="form-group"><label>Display Name</label><input type="text" value="Arjun Sharma"/></div>
+      <div class="form-group"><label>Username</label><input type="text" value="@arjun_writes"/></div>
+      <div class="form-group"><label>Email</label><input type="email" value="arjun@example.com"/></div>
+      <div class="form-group"><label>Bio</label><textarea rows="3">Fantasy & Sci-Fi writer from Ahmedabad.</textarea></div>
+      <div class="form-group"><label>Favorite Genres</label><input type="text" value="Fantasy, Sci-Fi, Mystery"/></div>
+      <button class="btn btn-primary">Save Changes</button>
+    </div>
+  </div>
+
+  <div style="height:3rem"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">Story<span>Weave</span></div><p style="font-size:0.85rem;max-width:240px">Where imagination meets collaboration.</p></div>
+      <div class="footer-col"><h4>Explore</h4><a href="explore.html">Browse Stories</a><a href="write.html">Start Writing</a><a href="leaderboard.html">Leaderboard</a></div>
+      <div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="login.html">Sign Up</a><a href="profile.html">Profile</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 StoryWeave. Made with ❤️ for writers everywhere.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+function switchPTab(id, el) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>

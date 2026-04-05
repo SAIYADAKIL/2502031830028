@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StoryWeave — Write</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <style>
+    .write-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
+    .write-header-inner { display: flex; align-items: center; justify-content: space-between; }
+    .back-link { color: var(--ink-light); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
+    .back-link:hover { color: var(--accent); }
+    .write-title-input {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      border: none;
+      outline: none;
+      width: 100%;
+      color: var(--ink);
+      background: transparent;
+      padding: 0;
+    }
+    .write-title-input::placeholder { color: var(--border); }
+
+    .editor-toolbar { display: flex; align-items: center; gap: 0.25rem; padding: 0.75rem 1rem; border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius-sm) var(--radius-sm) 0 0; background: var(--white); flex-wrap: wrap; }
+    .tool-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 700; color: var(--ink-light); transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .tool-btn:hover { background: var(--accent-pale); color: var(--accent); }
+    .tool-sep { width: 1px; height: 22px; background: var(--border); margin: 0 0.25rem; }
+
+    .editor-area {
+      width: 100%;
+      min-height: 380px;
+      border: 1px solid var(--border);
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      padding: 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      background: var(--white);
+      transition: border-color 0.2s;
+    }
+    .editor-area:focus { border-color: var(--accent); }
+
+    .word-count { font-size: 0.78rem; color: var(--ink-light); margin-top: 0.5rem; }
+
+    .story-type-card { border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; cursor: pointer; transition: all 0.2s; }
+    .story-type-card:hover { border-color: var(--accent); background: var(--accent-pale); }
+    .story-type-card.selected { border-color: var(--accent); background: var(--accent-pale); }
+    .story-type-card .icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .story-type-card .label { font-weight: 600; font-size: 0.88rem; }
+    .story-type-card .desc { font-size: 0.75rem; color: var(--ink-light); }
+
+    .sidebar-sticky { position: sticky; top: 88px; }
+    .sidebar-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; }
+    .sidebar-section h4 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 1rem; }
+
+    .tips-list { list-style: none; }
+    .tips-list li { font-size: 0.82rem; color: var(--ink-light); padding: 0.4rem 0; border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; }
+    .tips-list li:last-child { border-bottom: none; }
+    .tips-list li::before { content: '✦'; color: var(--accent); font-size: 0.65rem; padding-top: 2px; }
+
+    .genre-check { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .genre-check label { display: flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; cursor: pointer; padding: 0.3rem 0.6rem; border: 1px solid var(--border); border-radius: 50px; transition: all 0.2s; }
+    .genre-check input { display: none; }
+    .genre-check label:has(input:checked) { background: var(--accent); color: var(--white); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Story<span>Weave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="write.html" class="active">Write</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="login.html" class="nav-cta">Sign In</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="write-header">
+  <div class="container">
+    <div class="write-header-inner">
+      <a href="story.html" class="back-link">← Back to Story</a>
+      <div style="display:flex;gap:0.75rem">
+        <button class="btn btn-outline" style="padding:0.5rem 1rem;font-size:0.85rem">Save Draft</button>
+        <button class="btn btn-primary" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="alert('Chapter submitted for review!')">Submit Chapter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" style="padding-top:2rem">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-8">
+
+        <div class="mb-3">
+          <div class="section-label">Contributing to</div>
+          <div style="display:flex;align-items:center;gap:0.75rem;background:var(--accent-pale);padding:0.75rem 1rem;border-radius:var(--radius-sm);border:1px solid var(--accent-light)">
+            <span style="font-size:1.5rem">🏰</span>
+            <div>
+              <div style="font-weight:600;font-size:0.9rem">The Forgotten Kingdom</div>
+              <div style="font-size:0.75rem;color:var(--ink-light)">Adding Chapter 5 · Currently 24 chapters</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Chapter Title</label>
+          <input class="write-title-input" type="text" placeholder="Give your chapter a title..."/>
+        </div>
+
+        <div class="mb-2">
+          <label>Your Chapter</label>
+          <div class="editor-toolbar">
+            <button class="tool-btn" title="Bold"><b>B</b></button>
+            <button class="tool-btn" title="Italic"><i>I</i></button>
+            <button class="tool-btn" title="Underline"><u>U</u></button>
+            <div class="tool-sep"></div>
+            <button class="tool-btn" title="Heading">H₁</button>
+            <button class="tool-btn" title="Quote">❝</button>
+            <div class="tool-sep"></div>
+            <button class="tool-btn" title="Bullet">≡</button>
+            <button class="tool-btn" title="Numbered">①</button>
+            <div class="tool-sep"></div>
+            <button class="tool-btn" title="Undo">↩</button>
+            <button class="tool-btn" title="Redo">↪</button>
+          </div>
+          <textarea class="editor-area" id="editor" placeholder="Begin your chapter here...
+
+The princess had never been allowed in the lower archive. Not since she was seven, when she'd found a map that made her mother cry. Now at twenty-three, with the kingdom in mourning and the doors left unguarded, there was no one left to stop her..."></textarea>
+          <div class="word-count" id="wordCount">0 words · Aim for 500–2000 words</div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-top:1.5rem">
+          <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1rem">Starting a New Story instead?</h4>
+          <div class="row g-2">
+            <div class="col-4">
+              <div class="story-type-card selected" onclick="selectType(this)">
+                <div class="icon">🌱</div>
+                <div class="label">Open Story</div>
+                <div class="desc">Anyone can contribute</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="story-type-card" onclick="selectType(this)">
+                <div class="icon">🔒</div>
+                <div class="label">Invite Only</div>
+                <div class="desc">Choose your co-writers</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="story-type-card" onclick="selectType(this)">
+                <div class="icon">✍️</div>
+                <div class="label">Solo</div>
+                <div class="desc">Write by yourself</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-4">
+        <div class="sidebar-sticky">
+
+          <div class="sidebar-section">
+            <h4>Chapter Details</h4>
+            <div class="form-group">
+              <label>Point of View</label>
+              <select>
+                <option>Third Person (Recommended)</option>
+                <option>First Person</option>
+                <option>Second Person</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Content Tags</label>
+              <div class="genre-check">
+                <label><input type="checkbox" checked> Fantasy</label>
+                <label><input type="checkbox"> Adventure</label>
+                <label><input type="checkbox"> Mystery</label>
+                <label><input type="checkbox"> Romance</label>
+                <label><input type="checkbox"> Action</label>
+                <label><input type="checkbox"> Drama</label>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label>Content Warning (optional)</label>
+              <input type="text" placeholder="e.g. mild violence"/>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <h4>💡 Writing Tips</h4>
+            <ul class="tips-list">
+              <li>Read the previous chapter to maintain consistency</li>
+              <li>Keep the same POV as established</li>
+              <li>Don't kill major characters without approval</li>
+              <li>End with a hook to invite the next author</li>
+              <li>Aim for 500–2000 words per chapter</li>
+            </ul>
+          </div>
+
+          <div class="sidebar-section" style="background:var(--ink);border-color:var(--ink)">
+            <h4 style="color:var(--white)">Previous Chapter</h4>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.6);font-style:italic;line-height:1.7">"The map unrolled across the stone floor — not a map of the kingdom as she knew it, but of something older. Something buried. And at its centre, a single word in old script: <em>Forgotten.</em>"</p>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-top:0.75rem">— Ch. 4 by @elara_writes</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">Story<span>Weave</span></div><p style="font-size:0.85rem;max-width:240px">Where imagination meets collaboration.</p></div>
+      <div class="footer-col"><h4>Explore</h4><a href="explore.html">Browse Stories</a><a href="write.html">Start Writing</a><a href="leaderboard.html">Leaderboard</a></div>
+      <div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="login.html">Sign Up</a><a href="profile.html">Profile</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 StoryWeave. Made with ❤️ for writers everywhere.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  $('#editor').on('input', function() {
+    const words = $(this).val().trim().split(/\s+/).filter(w => w).length;
+    const color = words < 500 ? 'var(--ink-light)' : words > 2000 ? '#e74c3c' : 'green';
+    $('#wordCount').text(words + ' words · Aim for 500–2000 words').css('color', color);
+  });
+  function selectType(el) {
+    document.querySelectorAll('.story-type-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+</script>
+</body>
+</html>

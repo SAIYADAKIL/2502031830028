@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StoryWeave — Creative Writing Collaborative</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <style>
+    /* HERO */
+    .hero {
+      background: var(--white);
+      padding: 6rem 0 5rem;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--accent-pale) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 600px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent-pale); color: var(--accent);
+      padding: 0.4rem 1rem; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '✦'; }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+    .hero-title em { color: var(--accent); font-style: italic; }
+    .hero-sub { font-size: 1.05rem; color: var(--ink-light); margin-bottom: 2rem; max-width: 480px; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; }
+    .stat-item { }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--ink); }
+    .stat-label { font-size: 0.8rem; color: var(--ink-light); font-weight: 500; }
+    .hero-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .story-card-float {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 320px;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .story-card-float .genre { font-size: 0.72rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .story-card-float h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--ink); }
+    .story-card-float p { font-size: 0.82rem; color: var(--ink-light); line-height: 1.6; }
+    .story-card-float .contributors { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; }
+    .avatar-stack { display: flex; }
+    .avatar-stack img, .avatar-stack .av { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--white); margin-left: -8px; background: var(--accent); color: var(--white); font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+    .avatar-stack .av:first-child { margin-left: 0; }
+    .contrib-label { font-size: 0.75rem; color: var(--ink-light); }
+
+    /* FEATURED */
+    .story-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .story-card-img { height: 200px; background: linear-gradient(135deg, var(--accent-pale), var(--border)); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .story-card-body { padding: 1.25rem; }
+    .story-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .story-card-body p { font-size: 0.82rem; color: var(--ink-light); margin-bottom: 0.75rem; }
+    .story-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--ink-light); }
+
+    /* HOW IT WORKS */
+    .how-section { background: var(--white); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
+    .step-item { text-align: center; }
+    .step-icon { width: 64px; height: 64px; background: var(--accent-pale); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem; }
+    .step-num { font-size: 0.7rem; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 0.35rem; }
+    .step-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step-desc { font-size: 0.82rem; color: var(--ink-light); }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: var(--ink);
+      border-radius: var(--radius);
+      padding: 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(200,119,58,0.3), transparent 70%);
+    }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--white); margin-bottom: 0.75rem; }
+    .cta-banner p { color: rgba(255,255,255,0.65); margin-bottom: 1.75rem; }
+
+    @media(max-width: 768px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Story<span>Weave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="write.html">Write</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="login.html" class="nav-cta">Sign In</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-content fade-up">
+          <div class="hero-badge">Now with 12,000+ active writers</div>
+          <h1 class="hero-title">Where <em>stories</em> are built together</h1>
+          <p class="hero-sub">Join a community of writers crafting collaborative fiction. Pick up a story, add your chapter, and watch narratives grow beyond imagination.</p>
+          <div class="hero-actions">
+            <a href="explore.html" class="btn btn-primary">Explore Stories</a>
+            <a href="write.html" class="btn btn-outline">Start Writing</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item"><div class="stat-num">12K+</div><div class="stat-label">Active Writers</div></div>
+            <div class="stat-item"><div class="stat-num">4.8K</div><div class="stat-label">Stories Created</div></div>
+            <div class="stat-item"><div class="stat-num">98K</div><div class="stat-label">Chapters Written</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual fade-up delay-2">
+          <div class="story-card-float">
+            <div class="genre">🌌 Sci-Fi</div>
+            <h3>The Last Signal from Mars</h3>
+            <p>When Commander Yara decodes the ancient frequency, she realizes Earth has been lying about first contact for decades...</p>
+            <div class="contributors">
+              <div class="avatar-stack">
+                <div class="av">A</div>
+                <div class="av" style="background:#6b7fa3">R</div>
+                <div class="av" style="background:#7a9e6e">M</div>
+              </div>
+              <span class="contrib-label">3 contributors · 12 chapters</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED STORIES -->
+<section class="section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <div class="section-label">Featured</div>
+        <h2 class="section-title" style="margin-bottom:0">Trending Stories</h2>
+      </div>
+      <a href="explore.html" class="btn btn-outline">View All</a>
+    </div>
+    <div class="story-grid">
+      <div class="card">
+        <div class="story-card-img">🏰</div>
+        <div class="story-card-body">
+          <div class="tag" style="margin-bottom:0.6rem">Fantasy</div>
+          <h3>The Forgotten Kingdom</h3>
+          <p>A princess discovers her kingdom was built on a terrible secret buried beneath the royal archives...</p>
+          <div class="story-meta">
+            <span>👥 7 writers</span>
+            <span>📖 24 chapters</span>
+            <span>❤️ 842</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="story-card-img">🕵️</div>
+        <div class="story-card-body">
+          <div class="tag" style="margin-bottom:0.6rem">Mystery</div>
+          <h3>The Clock That Stopped</h3>
+          <p>Detective Mira finds every murder happened at exactly 3:17 AM — the time her partner died two years ago...</p>
+          <div class="story-meta">
+            <span>👥 5 writers</span>
+            <span>📖 18 chapters</span>
+            <span>❤️ 631</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="story-card-img">🌊</div>
+        <div class="story-card-body">
+          <div class="tag" style="margin-bottom:0.6rem">Adventure</div>
+          <h3>Below the Mariana</h3>
+          <p>A deep-sea expedition finds signs of civilization 11km beneath the Pacific — and something that found them first...</p>
+          <div class="story-meta">
+            <span>👥 9 writers</span>
+            <span>📖 31 chapters</span>
+            <span>❤️ 1.2K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Write together, effortlessly</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-icon">🔍</div>
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">Discover Stories</div>
+        <div class="step-desc">Browse thousands of ongoing stories across genres. Find one that speaks to you.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-icon">✍️</div>
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">Contribute a Chapter</div>
+        <div class="step-desc">Add your chapter to any open story. Your words become part of something larger.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-icon">🤝</div>
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">Collaborate</div>
+        <div class="step-desc">Connect with co-authors. Vote on plot directions. Shape the narrative together.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-icon">🏆</div>
+        <div class="step-num">STEP 04</div>
+        <div class="step-title">Earn Recognition</div>
+        <div class="step-desc">Climb the leaderboard. Get featured. Build your reputation as a storyteller.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Ready to add your voice?</h2>
+      <p>Join 12,000+ writers already weaving stories together. It's free forever.</p>
+      <a href="signup.html" class="btn btn-primary">Create Free Account</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Story<span>Weave</span></div>
+        <p style="font-size:0.85rem;max-width:240px">Where imagination meets collaboration. Every story is better with more voices.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="explore.html">Browse Stories</a>
+        <a href="write.html">Start Writing</a>
+        <a href="leaderboard.html">Leaderboard</a>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="profile.html">Profile</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="about.html#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 StoryWeave. Made with ❤️ for writers everywhere.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

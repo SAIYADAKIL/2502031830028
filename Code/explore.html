@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StoryWeave — Explore Stories</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <style>
+    .explore-hero { background: var(--white); padding: 3rem 0; border-bottom: 1px solid var(--border); }
+    .explore-hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .search-bar { display: flex; gap: 0.75rem; margin-top: 1.5rem; max-width: 600px; }
+    .search-bar input { flex: 1; border-radius: 50px !important; padding-left: 1.25rem !important; }
+    .search-bar button { border-radius: 50px; padding: 0.75rem 1.5rem; white-space: nowrap; }
+
+    .filter-bar { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 2rem 0 1.5rem; }
+    .filter-pill {
+      padding: 0.4rem 1rem; border-radius: 50px;
+      border: 1.5px solid var(--border); background: var(--white);
+      font-size: 0.82rem; font-weight: 500; cursor: pointer;
+      transition: all 0.2s; color: var(--ink-light);
+    }
+    .filter-pill:hover, .filter-pill.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .filter-pill.genre-active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+
+    .stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .story-card-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+    .bg-1 { background: linear-gradient(135deg, #fdebd0, #f5cba7); }
+    .bg-2 { background: linear-gradient(135deg, #d5e8d4, #b5d7b4); }
+    .bg-3 { background: linear-gradient(135deg, #dae8fc, #b3cfed); }
+    .bg-4 { background: linear-gradient(135deg, #f8d7da, #f1aeb5); }
+    .bg-5 { background: linear-gradient(135deg, #e8d5f0, #d0a8e0); }
+    .bg-6 { background: linear-gradient(135deg, #d5eafc, #9ec8f5); }
+
+    .story-card-body { padding: 1.25rem; }
+    .story-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .story-card-body p { font-size: 0.8rem; color: var(--ink-light); margin-bottom: 0.75rem; line-height: 1.6; }
+    .story-footer { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); }
+    .story-footer-meta { font-size: 0.75rem; color: var(--ink-light); display: flex; gap: 0.75rem; }
+    .story-footer .btn { padding: 0.4rem 0.9rem; font-size: 0.78rem; }
+
+    .sidebar-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; }
+    .sidebar-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 1rem; }
+    .genre-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .genre-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.6rem; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.15s; font-size: 0.85rem; }
+    .genre-item:hover { background: var(--accent-pale); color: var(--accent); }
+    .genre-count { font-size: 0.72rem; background: var(--border); padding: 0.2rem 0.5rem; border-radius: 50px; }
+
+    @media(max-width: 992px) { .stories-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width: 576px) { .stories-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Story<span>Weave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explore.html" class="active">Explore</a></li>
+    <li><a href="write.html">Write</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="login.html" class="nav-cta">Sign In</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="explore-hero">
+  <div class="container">
+    <div class="section-label">Discover</div>
+    <h1>Explore Stories</h1>
+    <p style="color:var(--ink-light);font-size:0.95rem">4,823 stories waiting for your contribution</p>
+    <div class="search-bar">
+      <input type="text" placeholder="Search stories, genres, writers..."/>
+      <button class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</div>
+
+<section class="section" style="padding-top:2rem">
+  <div class="container">
+    <div class="filter-bar">
+      <div class="filter-pill active">All Stories</div>
+      <div class="filter-pill">🔥 Trending</div>
+      <div class="filter-pill">🆕 Newest</div>
+      <div class="filter-pill">📝 Open to Contributions</div>
+      <div class="filter-pill">✅ Completed</div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-9">
+        <div class="stories-grid">
+
+          <div class="card">
+            <div class="story-card-img bg-1">🏰</div>
+            <div class="story-card-body">
+              <div class="tag mb-2">Fantasy</div>
+              <h3>The Forgotten Kingdom</h3>
+              <p>A princess discovers her kingdom was built on a terrible secret buried beneath the royal archives...</p>
+              <div style="font-size:0.75rem;color:var(--ink-light);display:flex;gap:0.75rem">
+                <span>👥 7 writers</span><span>📖 24 ch.</span><span>❤️ 842</span>
+              </div>
+            </div>
+            <div class="story-footer">
+              <div class="story-footer-meta"><span>Open</span><span>Fantasy · Adventure</span></div>
+              <a href="story.html" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="story-card-img bg-2">🌿</div>
+            <div class="story-card-body">
+              <div class="tag mb-2">Romance</div>
+              <h3>Letters Never Sent</h3>
+              <p>Two strangers find a box of unsent love letters from 1943 and begin corresponding across time...</p>
+              <div style="font-size:0.75rem;color:var(--ink-light);display:flex;gap:0.75rem">
+                <span>👥 4 writers</span><span>📖 11 ch.</span><span>❤️ 519</span>
+              </div>
+            </div>
+            <div class="story-footer">
+              <div class="story-footer-meta"><span>Open</span><span>Romance · Historical</span></div>
+              <a href="story.html" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="story-card-img bg-3">🌌</div>
+            <div class="story-card-body">
+              <div class="tag mb-2">Sci-Fi</div>
+              <h3>The Last Signal</h3>
+              <p>When Commander Yara decodes the ancient frequency, she realizes Earth has been lying about first contact...</p>
+              <div style="font-size:0.75rem;color:var(--ink-light);display:flex;gap:0.75rem">
+                <span>👥 3 writers</span><span>📖 12 ch.</span><span>❤️ 388</span>
+              </div>
+            </div>
+            <div class="story-footer">
+              <div class="story-footer-meta"><span>Open</span><span>Sci-Fi</span></div>
+              <a href="story.html" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="story-card-img bg-4">🕵️</div>
+            <div class="story-card-body">
+              <div class="tag mb-2">Mystery</div>
+              <h3>The Clock That Stopped</h3>
+              <p>Every murder happened at exactly 3:17 AM — the time Detective Mira's partner died two years ago...</p>
+              <div style="font-size:0.75rem;color:var(--ink-light);display:flex;gap:0.75rem">
+                <span>👥 5 writers</span><span>📖 18 ch.</span><span>❤️ 631</span>
+              </div>
+            </div>
+            <div class="story-footer">
+              <div class="story-footer-meta"><span>Open</span><span>Mystery · Thriller</span></div>
+              <a href="story.html" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="story-card-img bg-5">🧙</div>
+            <div class="story-card-body">
+              <div class="tag mb-2">Fantasy</div>
+              <h3>The Ink Mage's Apprentice</h3>
+              <p>Every spell Zara casts leaves words behind — but those words are forming a message she can't understand...</p>
+              <div style="font-size:0.75rem;color:var(--ink-light);display:flex;gap:0.75rem">
+                <span>👥 6 writers</span><span>📖 20 ch.</span><span>❤️ 744</span>
+              </div>
+            </div>
+            <div class="story-footer">
+              <div class="story-footer-meta"><span>Open</span><span>Fantasy · Magic</span></div>
+              <a href="story.html" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="story-card-img bg-6">🌊</div>
+            <div class="story-card-body">
+              <div class="tag mb-2">Adventure</div>
+              <h3>Below the Mariana</h3>
+              <p>A deep-sea expedition finds signs of civilization 11km below the Pacific — and something that found them first...</p>
+              <div style="font-size:0.75rem;color:var(--ink-light);display:flex;gap:0.75rem">
+                <span>👥 9 writers</span><span>📖 31 ch.</span><span>❤️ 1.2K</span>
+              </div>
+            </div>
+            <div class="story-footer">
+              <div class="story-footer-meta"><span>Open</span><span>Adventure · Horror</span></div>
+              <a href="story.html" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+          <button class="btn btn-outline">Load More Stories</button>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="sidebar-card">
+          <h4>Browse by Genre</h4>
+          <div class="genre-list">
+            <div class="genre-item">🏰 Fantasy <span class="genre-count">1,240</span></div>
+            <div class="genre-item">🌌 Sci-Fi <span class="genre-count">876</span></div>
+            <div class="genre-item">🕵️ Mystery <span class="genre-count">654</span></div>
+            <div class="genre-item">💕 Romance <span class="genre-count">582</span></div>
+            <div class="genre-item">🌊 Adventure <span class="genre-count">498</span></div>
+            <div class="genre-item">👻 Horror <span class="genre-count">312</span></div>
+            <div class="genre-item">📜 Historical <span class="genre-count">287</span></div>
+            <div class="genre-item">😄 Humor <span class="genre-count">174</span></div>
+          </div>
+        </div>
+        <div class="sidebar-card">
+          <h4>✍️ Start a Story</h4>
+          <p style="font-size:0.82rem;color:var(--ink-light);margin-bottom:1rem">Have an idea? Launch your own collaborative story and invite others to contribute.</p>
+          <a href="write.html" class="btn btn-primary w-100">Create New Story</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">Story<span>Weave</span></div><p style="font-size:0.85rem;max-width:240px">Where imagination meets collaboration.</p></div>
+      <div class="footer-col"><h4>Explore</h4><a href="explore.html">Browse Stories</a><a href="write.html">Start Writing</a><a href="leaderboard.html">Leaderboard</a></div>
+      <div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="login.html">Sign Up</a><a href="profile.html">Profile</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 StoryWeave. Made with ❤️ for writers everywhere.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  $('.filter-pill').click(function() {
+    $('.filter-pill').removeClass('active');
+    $(this).addClass('active');
+  });
+</script>
+</body>
+</html>

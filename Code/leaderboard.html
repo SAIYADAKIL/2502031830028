@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StoryWeave — Leaderboard</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <style>
+    .lb-hero { background: var(--ink); padding: 3.5rem 0; text-align: center; position: relative; overflow: hidden; }
+    .lb-hero::before { content:''; position:absolute; top:-100px;left:50%;transform:translateX(-50%); width:500px;height:500px; background:radial-gradient(circle,rgba(200,119,58,0.2),transparent 65%); }
+    .lb-hero h1 { font-family:'Playfair Display',serif; color:var(--white); font-size:2.5rem; margin-bottom:0.4rem; }
+    .lb-hero p { color:rgba(255,255,255,0.6); }
+
+    .lb-filters { display:flex; justify-content:center; gap:0.5rem; margin:2rem 0 1.5rem; flex-wrap:wrap; }
+    .lb-filter { padding:0.4rem 1rem; border-radius:50px; border:1.5px solid var(--border); background:var(--white); font-size:0.82rem; font-weight:500; cursor:pointer; transition:all 0.2s; }
+    .lb-filter.active { background:var(--accent); color:var(--white); border-color:var(--accent); }
+
+    .podium { display:flex; justify-content:center; align-items:flex-end; gap:1.5rem; margin:2rem 0 3rem; }
+    .podium-item { text-align:center; }
+    .podium-avatar { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--white); margin:0 auto 0.5rem; border:3px solid var(--white); box-shadow:var(--shadow); }
+    .podium-name { font-weight:600; font-size:0.88rem; }
+    .podium-score { font-size:0.75rem; color:var(--ink-light); }
+    .podium-rank { font-size:1.2rem; margin-bottom:0.3rem; }
+    .podium-bar { border-radius:8px 8px 0 0; width:80px; margin:0 auto 0; }
+    .p1 .podium-avatar { width:80px; height:80px; font-size:1.8rem; }
+    .p1 .podium-bar { height:100px; background:linear-gradient(180deg,#f9ca24,#f0932b); }
+    .p2 .podium-bar { height:70px; background:linear-gradient(180deg,#c0c0c0,#9d9d9d); }
+    .p3 .podium-bar { height:50px; background:linear-gradient(180deg,#cd7f32,#a05c20); }
+
+    .lb-table { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+    .lb-row { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; border-bottom:1px solid var(--border); transition:background 0.15s; }
+    .lb-row:last-child { border-bottom:none; }
+    .lb-row:hover { background:var(--accent-pale); }
+    .lb-rank { width:32px; font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--ink-light); text-align:center; flex-shrink:0; }
+    .lb-avatar { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--white); font-size:0.85rem; flex-shrink:0; }
+    .lb-name { font-weight:600; font-size:0.9rem; flex:1; }
+    .lb-handle { font-size:0.75rem; color:var(--ink-light); }
+    .lb-badge { font-size:0.7rem; background:var(--accent-pale); color:var(--accent); padding:0.15rem 0.5rem; border-radius:50px; font-weight:600; }
+    .lb-stat { text-align:right; font-size:0.82rem; min-width:60px; }
+    .lb-stat .val { font-weight:700; color:var(--ink); font-size:0.92rem; }
+    .lb-stat .lbl { font-size:0.68rem; color:var(--ink-light); }
+
+    .mini-table-header { display:flex; padding:0.65rem 1.25rem; background:var(--cream); font-size:0.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-light); border-bottom:1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Story<span>Weave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="write.html">Write</a></li>
+    <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="login.html" class="nav-cta">Sign In</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lb-hero">
+  <div class="container">
+    <div class="section-label" style="color:var(--accent)">Hall of Fame</div>
+    <h1>Top Writers</h1>
+    <p>The most active, creative storytellers on StoryWeave this month</p>
+  </div>
+</div>
+
+<section class="section" style="padding-top:2rem">
+  <div class="container">
+
+    <div class="lb-filters">
+      <div class="lb-filter active">This Month</div>
+      <div class="lb-filter">This Week</div>
+      <div class="lb-filter">All Time</div>
+      <div class="lb-filter">By Chapters</div>
+      <div class="lb-filter">By Likes</div>
+      <div class="lb-filter">By Stories Founded</div>
+    </div>
+
+    <!-- PODIUM -->
+    <div class="podium">
+      <div class="podium-item p2">
+        <div class="podium-rank">🥈</div>
+        <div class="podium-avatar" style="background:#6b7fa3">M</div>
+        <div class="podium-name">moonlit_quill</div>
+        <div class="podium-score">2,841 pts</div>
+        <div class="podium-bar mt-2"></div>
+      </div>
+      <div class="podium-item p1">
+        <div class="podium-rank">🥇</div>
+        <div class="podium-avatar" style="background:var(--accent)">E</div>
+        <div class="podium-name">elara_writes</div>
+        <div class="podium-score">4,120 pts</div>
+        <div class="podium-bar mt-2"></div>
+      </div>
+      <div class="podium-item p3">
+        <div class="podium-rank">🥉</div>
+        <div class="podium-avatar" style="background:#7a9e6e">S</div>
+        <div class="podium-name">stormbright</div>
+        <div class="podium-score">2,210 pts</div>
+        <div class="podium-bar mt-2"></div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="lb-table">
+          <div class="mini-table-header">
+            <div style="flex:0 0 32px">#</div>
+            <div style="flex:0 0 40px;margin-left:1rem"></div>
+            <div style="flex:1;margin-left:1rem">Writer</div>
+            <div style="min-width:60px;text-align:right">Chapters</div>
+            <div style="min-width:60px;text-align:right;margin-left:1rem">Likes</div>
+            <div style="min-width:60px;text-align:right;margin-left:1rem">Points</div>
+          </div>
+
+          <div class="lb-row">
+            <div class="lb-rank">1</div>
+            <div class="lb-avatar" style="background:var(--accent)">E</div>
+            <div class="lb-name" style="flex:1"><div>elara_writes <span class="lb-badge">🏆 #1</span></div><div class="lb-handle">@elara_writes · Fantasy Specialist</div></div>
+            <div class="lb-stat"><div class="val">38</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">1.2K</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">4,120</div><div class="lbl">pts</div></div>
+          </div>
+
+          <div class="lb-row">
+            <div class="lb-rank">2</div>
+            <div class="lb-avatar" style="background:#6b7fa3">M</div>
+            <div class="lb-name" style="flex:1"><div>moonlit_quill</div><div class="lb-handle">@moonlit_quill · Romance & Mystery</div></div>
+            <div class="lb-stat"><div class="val">27</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">841</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">2,841</div><div class="lbl">pts</div></div>
+          </div>
+
+          <div class="lb-row">
+            <div class="lb-rank">3</div>
+            <div class="lb-avatar" style="background:#7a9e6e">S</div>
+            <div class="lb-name" style="flex:1"><div>stormbright</div><div class="lb-handle">@stormbright · Adventure Writer</div></div>
+            <div class="lb-stat"><div class="val">22</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">630</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">2,210</div><div class="lbl">pts</div></div>
+          </div>
+
+          <div class="lb-row" style="background:var(--accent-pale);border-left:3px solid var(--accent)">
+            <div class="lb-rank" style="color:var(--accent)">4</div>
+            <div class="lb-avatar" style="background:var(--accent)">A</div>
+            <div class="lb-name" style="flex:1"><div>arjun_writes <span class="lb-badge">👤 You</span></div><div class="lb-handle">@arjun_writes · Fantasy & Sci-Fi</div></div>
+            <div class="lb-stat"><div class="val">63</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">287</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">1,940</div><div class="lbl">pts</div></div>
+          </div>
+
+          <div class="lb-row">
+            <div class="lb-rank">5</div>
+            <div class="lb-avatar" style="background:#9b7ab5">A</div>
+            <div class="lb-name" style="flex:1"><div>astral_pen</div><div class="lb-handle">@astral_pen · Sci-Fi & Horror</div></div>
+            <div class="lb-stat"><div class="val">18</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">412</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">1,680</div><div class="lbl">pts</div></div>
+          </div>
+
+          <div class="lb-row">
+            <div class="lb-rank">6</div>
+            <div class="lb-avatar" style="background:#c97e5a">R</div>
+            <div class="lb-name" style="flex:1"><div>raven_ink</div><div class="lb-handle">@raven_ink · Dark Fantasy</div></div>
+            <div class="lb-stat"><div class="val">15</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">298</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">1,340</div><div class="lbl">pts</div></div>
+          </div>
+
+          <div class="lb-row">
+            <div class="lb-rank">7</div>
+            <div class="lb-avatar" style="background:#5aabb5">N</div>
+            <div class="lb-name" style="flex:1"><div>nova_quill</div><div class="lb-handle">@nova_quill · Romance Specialist</div></div>
+            <div class="lb-stat"><div class="val">12</div><div class="lbl">chapters</div></div>
+            <div class="lb-stat"><div class="val">224</div><div class="lbl">likes</div></div>
+            <div class="lb-stat"><div class="val">1,080</div><div class="lbl">pts</div></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.25rem">
+          <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1rem">📊 Your Ranking</h4>
+          <div style="text-align:center;padding:1rem 0">
+            <div style="font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--accent)">#4</div>
+            <div style="font-size:0.82rem;color:var(--ink-light)">Global Rank This Month</div>
+          </div>
+          <div style="background:var(--cream);border-radius:var(--radius-sm);padding:0.75rem;font-size:0.82rem;color:var(--ink-light);text-align:center">
+            ⬆️ Write 3 more chapters to reach <strong style="color:var(--ink)">#3</strong>!
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <h4 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1rem">🏅 How Points Work</h4>
+          <div style="font-size:0.82rem;color:var(--ink-light);line-height:2">
+            ✍️ Chapter submitted → +50 pts<br>
+            ❤️ Per like received → +5 pts<br>
+            👁️ Per 100 reads → +10 pts<br>
+            🌟 Featured story → +200 pts<br>
+            📖 Story founded → +100 pts<br>
+            🏆 Monthly winner → +500 pts
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">Story<span>Weave</span></div><p style="font-size:0.85rem;max-width:240px">Where imagination meets collaboration.</p></div>
+      <div class="footer-col"><h4>Explore</h4><a href="explore.html">Browse Stories</a><a href="write.html">Start Writing</a><a href="leaderboard.html">Leaderboard</a></div>
+      <div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="login.html">Sign Up</a><a href="profile.html">Profile</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 StoryWeave. Made with ❤️ for writers everywhere.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  $('.lb-filter').click(function() {
+    $('.lb-filter').removeClass('active');
+    $(this).addClass('active');
+  });
+</script>
+</body>
+</html>
